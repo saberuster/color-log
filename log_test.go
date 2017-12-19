@@ -11,13 +11,16 @@ import (
 func TestLogger_Debug(t *testing.T) {
 	r, l := newLog()
 	l.SetFrontColor(RED)
+	l.SetBackColor(BLACK)
+	l.SetDisplayMethod(Highlight)
+	l.SetLevel(DEBUG)
 	go l.Debug("debugging")
 	br := bufio.NewReader(r)
 	str, err := br.ReadString('\n')
 	if err != nil {
 		t.Fatal(err)
 	}
-	if strings.TrimSpace(str) != fmt.Sprintf("%c[%d;%d;%dmdebugging%c[0m", 0x1B, Default, Frontend+RED, Backend+BLACK, 0x1B) {
+	if strings.TrimSpace(str) != fmt.Sprintf("%c[%d;%d;%dmdebugging%c[0m", 0x1B, Highlight, Frontend+RED, Backend+BLACK, 0x1B) {
 		t.Fatal("str error")
 	}
 }
